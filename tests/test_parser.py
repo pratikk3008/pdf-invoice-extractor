@@ -83,3 +83,9 @@ def test_summary_report_totals() -> None:
 def test_vendor_whitespace_normalized(parser: InvoiceParser) -> None:
     invoice = parser.parse_file(SAMPLES_DIR / "invoice_acme_001.pdf")
     assert "  " not in invoice.vendor
+
+
+def test_parse_empty_directory_returns_no_invoices(tmp_path: Path, parser: InvoiceParser) -> None:
+    result = parser.parse_directory(tmp_path)
+    assert result.invoices == []
+    assert result.errors == []
