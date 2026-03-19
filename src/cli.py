@@ -4,16 +4,9 @@ import argparse
 import logging
 from pathlib import Path
 
+from .logging_config import configure_logging
 from .parser import InvoiceParser
 from .report import build_summary, write_errors, write_summary, write_summary_csv
-
-
-def configure_logging(verbose: bool) -> None:
-    level = logging.DEBUG if verbose else logging.INFO
-    logging.basicConfig(
-        level=level,
-        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
-    )
 
 
 def build_parser() -> argparse.ArgumentParser:
