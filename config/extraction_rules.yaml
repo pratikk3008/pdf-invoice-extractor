@@ -1,8 +1,9 @@
 # Field patterns used to locate invoice data inside PDF text.
+# Each pattern is a case-insensitive regular expression.
 
 fields:
   invoice_number:
-    pattern: "Invoice\\s*(?:#|No\\.?|Number)?\\s*:?\\s*([A-Z0-9-]+)"
+    pattern: "Invoice\\s+(?:Number|No\\.?|#)\\s*:\\s*([A-Z0-9-]+)"
     required: true
 
   vendor:
@@ -18,8 +19,9 @@ fields:
     required: true
 
 line_items:
+  # Matches rows like: "Widget A    2    15.00    30.00"
   pattern: "^([A-Za-z0-9][A-Za-z0-9\\s\\-]+?)\\s+(\\d+)\\s+([0-9,]+\\.\\d{2})\\s+([0-9,]+\\.\\d{2})\\s*$"
 
 validation:
   min_line_items: 1
-  max_total_deviation: 0.05
+  max_total_deviation: 0.05  # dollars tolerance between line items and stated total
