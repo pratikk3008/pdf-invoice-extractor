@@ -12,6 +12,11 @@ from .models import ExtractionResult, Invoice, LineItem, ParseError
 logger = logging.getLogger(__name__)
 
 
+def parse_money(value: str) -> float:
+    """Normalize currency strings like '$1,234.56' into floats."""
+    return float(value.replace(",", "").replace("$", "").strip())
+
+
 class InvoiceParser:
     """Extract structured invoice data from PDF files using configurable regex rules."""
 
@@ -48,7 +53,7 @@ class InvoiceParser:
         invoice_number = self._extract_field(text, "invoice_number")
         vendor = self._extract_field(text, "vendor")
         date = self._extract_field(text, "date")
-        total = float(self._extract_field(text, "total").replace(",", ""))
+        total = parse_money(self._extract_field(text, "total"))
         line_items = self._extract_line_items(text)
 
         self._validate(invoice_number, vendor, date, total, line_items)
