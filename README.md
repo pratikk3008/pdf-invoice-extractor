@@ -322,3 +322,8 @@ API docs: http://127.0.0.1:8000/docs
 ```powershell
 ./scripts/run_dev.ps1
 ```
+
+## Troubleshooting
+
+- **No PDFs found:** confirm files exist in `--input-dir` and use `.pdf` extension.
+- **Total mismatch errors:** verify line-item rows match the stated invoice total.
