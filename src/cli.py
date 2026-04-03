@@ -34,6 +34,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path for the parsing error log.",
     )
     parser.add_argument("--export-csv", default=None, help="Optional CSV export path.")
+    parser.add_argument("--dry-run", action="store_true", help="Parse invoices without writing output files.")
     parser.add_argument("--verbose", action="store_true", help="Enable debug logging.")
     return parser
 
@@ -51,10 +52,11 @@ def main(argv: list[str] | None = None) -> int:
     result = extractor.parse_directory(input_dir)
 
     report = build_summary(result)
-    write_summary(report, args.output)
-    write_errors(result, args.error_log)
-    if args.export_csv:
-        write_summary_csv(report, args.export_csv)
+    if not args.dry_run:
+        write_summary(report, args.output)
+        write_errors(result, args.error_log)
+        if args.export_csv:
+            write_summary_csv(report, args.export_csv)
 
     logging.info(
         "Finished: %s success, %s errors, total amount $%.2f",
