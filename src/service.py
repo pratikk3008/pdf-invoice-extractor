@@ -7,7 +7,7 @@ import yaml
 
 from .models import ExtractionResult, Invoice, ParseError
 from .parser import InvoiceParser
-from .report import build_summary, write_errors, write_summary, write_summary_csv
+from .report import build_summary, write_errors, write_metrics, write_summary, write_summary_csv
 
 
 class InvoiceExtractionService:
@@ -139,15 +139,7 @@ class InvoiceExtractionService:
         write_summary(self.summary, self.output_dir / "summary.json")
         write_errors(self.result, self.output_dir / "errors.log")
 
-        metrics = {
-            "processed_count": self.summary.processed_count,
-            "success_count": self.summary.success_count,
-            "error_count": self.summary.error_count,
-            "total_amount": self.summary.total_amount,
-            "vendor_count": len(self.summary.vendors),
-        }
-        with open(self.output_dir / "metrics.json", "w", encoding="utf-8") as handle:
-            json.dump(metrics, handle, indent=2)
+        write_metrics(self.summary, self.output_dir / "metrics.json")
 
 
     def find_duplicate_invoice_numbers(self) -> list[str]:

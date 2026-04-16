@@ -85,3 +85,18 @@ def write_summary_csv(report: SummaryReport, output_path: str | Path) -> None:
         for row in report.invoices:
             writer.writerow({key: row[key] for key in writer.fieldnames})
     logger.info("Wrote CSV summary to %s", output_path)
+
+
+def write_metrics(report: SummaryReport, output_path: str | Path) -> None:
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    metrics = {
+        "processed_count": report.processed_count,
+        "success_count": report.success_count,
+        "error_count": report.error_count,
+        "total_amount": report.total_amount,
+        "vendor_count": len(report.vendors),
+    }
+    with open(output_path, "w", encoding="utf-8") as handle:
+        json.dump(metrics, handle, indent=2)
+    logger.info("Wrote metrics report to %s", output_path)
