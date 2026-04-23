@@ -327,3 +327,11 @@ API docs: http://127.0.0.1:8000/docs
 
 - **No PDFs found:** confirm files exist in `--input-dir` and use `.pdf` extension.
 - **Total mismatch errors:** verify line-item rows match the stated invoice total.
+
+## API endpoint groups
+
+- **system** — health and reset
+- **loading** — rules, samples, uploads
+- **processing** — batch and single PDF parsing
+- **invoices** — list and detail views
+- **summarization** — summary, CSV, metrics, vendors, errors
