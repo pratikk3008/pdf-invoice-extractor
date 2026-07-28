@@ -4,6 +4,7 @@ A config-driven PDF invoice extraction system built with **Python**, **pdfplumbe
 
 **Repository:** [github.com/pratikk3008/pdf-invoice-extractor](https://github.com/pratikk3008/pdf-invoice-extractor)
 
+![Tests](https://github.com/pratikk3008/pdf-invoice-extractor/actions/workflows/ci.yml/badge.svg)
 
 ---
 
@@ -207,6 +208,7 @@ Generated files:
 - `output/errors.log` — parsing failures with timestamps
 - `output/metrics.json` — runtime processing statistics
 
+See [docs/examples/](docs/examples/) for sample output files.
 
 ---
 
@@ -295,3 +297,7 @@ To support a new invoice layout, update the YAML patterns — no parser code cha
 **Pratik Shirsath** — [@pratikk3008](https://github.com/pratikk3008)
 
 Built as a software engineering task for **Codefeast** — config-driven PDF processing with VS Code, pdfplumber, and FastAPI.
+
+## License
+
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
