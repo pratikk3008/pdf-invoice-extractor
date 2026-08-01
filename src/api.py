@@ -23,11 +23,12 @@ from .schemas import (
 from .serializers import invoice_to_dict
 from .service import InvoiceExtractionService
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RULES_PATH = PROJECT_ROOT / "config" / "extraction_rules.yaml"
-DEFAULT_SAMPLES_DIR = PROJECT_ROOT / "data" / "samples"
-DEFAULT_UPLOAD_DIR = PROJECT_ROOT / "data" / "uploads"
-DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "output"
+from .constants import (
+    DEFAULT_OUTPUT_DIR,
+    DEFAULT_RULES_PATH,
+    DEFAULT_SAMPLES_DIR,
+    DEFAULT_UPLOAD_DIR,
+)
 
 
 def create_service() -> InvoiceExtractionService:
