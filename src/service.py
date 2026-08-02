@@ -145,3 +145,10 @@ class InvoiceExtractionService:
         }
         with open(self.output_dir / "metrics.json", "w", encoding="utf-8") as handle:
             json.dump(metrics, handle, indent=2)
+
+
+    def find_duplicate_invoice_numbers(self) -> list[str]:
+        counts: dict[str, int] = {}
+        for invoice in self.result.invoices:
+            counts[invoice.invoice_number] = counts.get(invoice.invoice_number, 0) + 1
+        return sorted(number for number, count in counts.items() if count > 1)
