@@ -19,6 +19,7 @@ from .schemas import (
     ProcessResponse,
     SummaryResponse,
     UploadResponse,
+    DuplicateListResponse,
 )
 from .serializers import invoice_to_dict
 from .service import InvoiceExtractionService
@@ -182,6 +183,11 @@ def create_app(service: InvoiceExtractionService | None = None) -> FastAPI:
     @app.get("/summary", response_model=SummaryResponse, tags=["summarization"])
     def get_summary(service: InvoiceExtractionService = Depends(get_service)) -> SummaryResponse:
         return SummaryResponse(**service.get_summary_dict())
+
+    @app.get("/duplicates", response_model=DuplicateListResponse, tags=["summarization"])
+    def get_duplicate_invoices(service: InvoiceExtractionService = Depends(get_service)) -> DuplicateListResponse:
+        duplicates = service.find_duplicate_invoice_numbers()
+        return DuplicateListResponse(count=len(duplicates), duplicate_invoice_numbers=duplicates)
 
     @app.get("/errors", response_model=ErrorListResponse, tags=["summarization"])
     def get_errors(service: InvoiceExtractionService = Depends(get_service)) -> ErrorListResponse:

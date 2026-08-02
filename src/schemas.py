@@ -79,3 +79,8 @@ class LoadSamplesRequest(BaseModel):
         default=None,
         description="Optional directory override. Defaults to bundled sample invoices.",
     )
+
+
+class DuplicateListResponse(BaseModel):
+    count: int
+    duplicate_invoice_numbers: list[str]
