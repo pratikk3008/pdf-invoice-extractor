@@ -194,3 +194,9 @@ def test_reset_endpoint_clears_state(client: TestClient) -> None:
 
     summary_response = client.get("/summary")
     assert summary_response.json()["success_count"] == 0
+
+
+def test_duplicates_endpoint_empty(client: TestClient) -> None:
+    response = client.get("/duplicates")
+    assert response.status_code == 200
+    assert response.json()["count"] == 0
