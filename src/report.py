@@ -69,3 +69,19 @@ def write_errors(result: ExtractionResult, log_path: str | Path) -> None:
 
     file_handler.close()
     logger.info("Wrote error log to %s", log_path)
+
+
+def write_summary_csv(report: SummaryReport, output_path: str | Path) -> None:
+    import csv
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["invoice_number", "vendor", "date", "total", "source_file"],
+        )
+        writer.writeheader()
+        for row in report.invoices:
+            writer.writerow(row)
+    logger.info("Wrote CSV summary to %s", output_path)
