@@ -7,7 +7,7 @@ import yaml
 
 from .models import ExtractionResult, Invoice, ParseError
 from .parser import InvoiceParser
-from .report import build_summary, write_errors, write_summary
+from .report import build_summary, write_errors, write_summary, write_summary_csv
 
 
 class InvoiceExtractionService:
@@ -152,3 +152,9 @@ class InvoiceExtractionService:
         for invoice in self.result.invoices:
             counts[invoice.invoice_number] = counts.get(invoice.invoice_number, 0) + 1
         return sorted(number for number, count in counts.items() if count > 1)
+
+
+    def export_summary_csv(self, destination: Path | None = None) -> Path:
+        target = destination or (self.output_dir / "summary.csv")
+        write_summary_csv(self.summary, target)
+        return target

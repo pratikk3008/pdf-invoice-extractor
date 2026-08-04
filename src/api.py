@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
 
 from .schemas import (
     ConfigRulesResponse,
@@ -179,6 +179,11 @@ def create_app(service: InvoiceExtractionService | None = None) -> FastAPI:
             ) from exc
 
         return _invoice_detail(invoice)
+
+    @app.get("/summary/csv", tags=["summarization"])
+    def download_summary_csv(service: InvoiceExtractionService = Depends(get_service)) -> FileResponse:
+        csv_path = service.export_summary_csv()
+        return FileResponse(path=csv_path, filename="summary.csv", media_type="text/csv")
 
     @app.get("/summary", response_model=SummaryResponse, tags=["summarization"])
     def get_summary(service: InvoiceExtractionService = Depends(get_service)) -> SummaryResponse:
