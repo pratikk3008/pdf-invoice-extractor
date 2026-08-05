@@ -24,12 +24,7 @@ from .schemas import (
 from .serializers import invoice_to_dict
 from .service import InvoiceExtractionService
 
-from .constants import (
-    DEFAULT_OUTPUT_DIR,
-    DEFAULT_RULES_PATH,
-    DEFAULT_SAMPLES_DIR,
-    DEFAULT_UPLOAD_DIR,
-)
+from .constants import APP_VERSION, DEFAULT_OUTPUT_DIR, DEFAULT_RULES_PATH, DEFAULT_SAMPLES_DIR, DEFAULT_UPLOAD_DIR
 
 
 def create_service() -> InvoiceExtractionService:
@@ -58,8 +53,14 @@ def create_app(service: InvoiceExtractionService | None = None) -> FastAPI:
         return RedirectResponse(url="/docs")
 
     @app.get("/health", response_model=HealthResponse, tags=["system"])
-    def health_check() -> HealthResponse:
-        return HealthResponse(status="ok", service="pdf-invoice-extractor")
+    def health_check(service: InvoiceExtractionService = Depends(get_service)) -> HealthResponse:
+        return HealthResponse(
+            status="ok",
+            service="pdf-invoice-extractor",
+            version=APP_VERSION,
+            invoice_count=len(service.result.invoices),
+            error_count=len(service.result.errors),
+        )
 
     @app.get("/config/rules", response_model=ConfigRulesResponse, tags=["loading"])
     def load_config_rules(service: InvoiceExtractionService = Depends(get_service)) -> ConfigRulesResponse:

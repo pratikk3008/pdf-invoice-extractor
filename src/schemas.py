@@ -6,6 +6,9 @@ from pydantic import BaseModel, Field
 class HealthResponse(BaseModel):
     status: str
     service: str
+    version: str
+    invoice_count: int
+    error_count: int
 
 
 class LineItemResponse(BaseModel):
