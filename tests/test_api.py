@@ -35,7 +35,10 @@ def test_health_check(client: TestClient) -> None:
     response = client.get("/health")
 
     assert response.status_code == 200
-    assert response.json() == {"status": "ok", "service": "pdf-invoice-extractor"}
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["service"] == "pdf-invoice-extractor"
+    assert "version" in payload
 
 
 def test_load_config_rules(client: TestClient) -> None:
