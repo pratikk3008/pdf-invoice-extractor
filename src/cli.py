@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 
 from .parser import InvoiceParser
-from .report import build_summary, write_errors, write_summary
+from .report import build_summary, write_errors, write_summary, write_summary_csv
 
 
 def configure_logging(verbose: bool) -> None:
@@ -40,6 +40,7 @@ def build_parser() -> argparse.ArgumentParser:
         default="output/errors.log",
         help="Path for the parsing error log.",
     )
+    parser.add_argument("--export-csv", default=None, help="Optional CSV export path.")
     parser.add_argument("--verbose", action="store_true", help="Enable debug logging.")
     return parser
 
@@ -59,6 +60,8 @@ def main(argv: list[str] | None = None) -> int:
     report = build_summary(result)
     write_summary(report, args.output)
     write_errors(result, args.error_log)
+    if args.export_csv:
+        write_summary_csv(report, args.export_csv)
 
     logging.info(
         "Finished: %s success, %s errors, total amount $%.2f",
