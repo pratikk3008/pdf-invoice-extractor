@@ -203,3 +203,10 @@ def test_duplicates_endpoint_empty(client: TestClient) -> None:
     response = client.get("/duplicates")
     assert response.status_code == 200
     assert response.json()["count"] == 0
+
+
+def test_summary_csv_download(client: TestClient) -> None:
+    client.post("/load/samples", json={})
+    response = client.get("/summary/csv")
+    assert response.status_code == 200
+    assert "text/csv" in response.headers["content-type"]
