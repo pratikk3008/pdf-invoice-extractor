@@ -159,12 +159,17 @@ def create_app(service: InvoiceExtractionService | None = None) -> FastAPI:
         return _invoice_detail(invoice)
 
     @app.get("/invoices", response_model=InvoiceListResponse, tags=["invoices"])
-    def list_invoices(vendor: str | None = None, service: InvoiceExtractionService = Depends(get_service)) -> InvoiceListResponse:
+    def list_invoices(vendor: str | None = None, sort_by: str = "date", service: InvoiceExtractionService = Depends(get_service)) -> InvoiceListResponse:
         invoices = [
             InvoiceSummaryResponse(**invoice_to_dict(invoice))
             for invoice in service.result.invoices
             if vendor is None or invoice.vendor.lower() == vendor.lower()
         ]
+        if sort_by == "total":
+            key_fn = lambda row: row.total
+        else:
+            key_fn = lambda row: row.date
+        invoices.sort(key=key_fn)
         return InvoiceListResponse(count=len(invoices), invoices=invoices)
 
     @app.get("/invoices/{invoice_number}", response_model=InvoiceDetailResponse, tags=["invoices"])
