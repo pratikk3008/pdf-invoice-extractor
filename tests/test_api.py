@@ -210,3 +210,10 @@ def test_summary_csv_download(client: TestClient) -> None:
     response = client.get("/summary/csv")
     assert response.status_code == 200
     assert "text/csv" in response.headers["content-type"]
+
+
+def test_list_invoices_vendor_filter(client: TestClient) -> None:
+    client.post("/load/samples", json={})
+    response = client.get("/invoices", params={"vendor": "Acme Supplies Ltd"})
+    assert response.status_code == 200
+    assert response.json()["count"] == 1
