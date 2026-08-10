@@ -196,6 +196,14 @@ def create_app(service: InvoiceExtractionService | None = None) -> FastAPI:
     def get_summary(service: InvoiceExtractionService = Depends(get_service)) -> SummaryResponse:
         return SummaryResponse(**service.get_summary_dict())
 
+    @app.get("/metrics", tags=["summarization"])
+    def get_metrics(service: InvoiceExtractionService = Depends(get_service)):
+        metrics_path = service.output_dir / "metrics.json"
+        if not metrics_path.exists():
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Metrics not generated yet")
+        import json
+        return json.loads(metrics_path.read_text(encoding="utf-8"))
+
     @app.get("/duplicates", response_model=DuplicateListResponse, tags=["summarization"])
     def get_duplicate_invoices(service: InvoiceExtractionService = Depends(get_service)) -> DuplicateListResponse:
         duplicates = service.find_duplicate_invoice_numbers()
