@@ -301,3 +301,11 @@ Built as a software engineering task for **Codefeast** — config-driven PDF pro
 ## License
 
 This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
+
+## Docker
+
+```bash
+docker compose up --build
+```
+
+API docs: http://127.0.0.1:8000/docs
