@@ -87,3 +87,8 @@ class LoadSamplesRequest(BaseModel):
 class DuplicateListResponse(BaseModel):
     count: int
     duplicate_invoice_numbers: list[str]
+
+
+class VendorTotalsResponse(BaseModel):
+    count: int
+    vendors: dict[str, float]

@@ -20,6 +20,7 @@ from .schemas import (
     SummaryResponse,
     UploadResponse,
     DuplicateListResponse,
+    VendorTotalsResponse,
 )
 from .serializers import invoice_to_dict
 from .service import InvoiceExtractionService
@@ -186,6 +187,11 @@ def create_app(service: InvoiceExtractionService | None = None) -> FastAPI:
             ) from exc
 
         return _invoice_detail(invoice)
+
+    @app.get("/vendors", response_model=VendorTotalsResponse, tags=["summarization"])
+    def get_vendor_totals(service: InvoiceExtractionService = Depends(get_service)) -> VendorTotalsResponse:
+        vendors = service.get_summary_dict()["vendors"]
+        return VendorTotalsResponse(count=len(vendors), vendors=vendors)
 
     @app.get("/summary/csv", tags=["summarization"])
     def download_summary_csv(service: InvoiceExtractionService = Depends(get_service)) -> FileResponse:
