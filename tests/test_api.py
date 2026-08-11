@@ -217,3 +217,10 @@ def test_list_invoices_vendor_filter(client: TestClient) -> None:
     response = client.get("/invoices", params={"vendor": "Acme Supplies Ltd"})
     assert response.status_code == 200
     assert response.json()["count"] == 1
+
+
+def test_metrics_endpoint_after_load(client: TestClient) -> None:
+    client.post("/load/samples", json={})
+    response = client.get("/metrics")
+    assert response.status_code == 200
+    assert response.json()["success_count"] == 5
