@@ -224,3 +224,13 @@ def test_metrics_endpoint_after_load(client: TestClient) -> None:
     response = client.get("/metrics")
     assert response.status_code == 200
     assert response.json()["success_count"] == 5
+
+
+def test_upload_rejects_oversized_file(client: TestClient) -> None:
+    oversized = b"%PDF-" + (b"0" * (5 * 1024 * 1024))
+    response = client.post(
+        "/upload/single",
+        files={"file": ("big.pdf", oversized, "application/pdf")},
+    )
+    assert response.status_code == 400
+    assert "upload limit" in response.json()["detail"].lower()
