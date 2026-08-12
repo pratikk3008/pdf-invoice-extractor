@@ -51,6 +51,9 @@ class InvoiceExtractionService:
         return self.result
 
     def save_upload(self, filename: str, content: bytes) -> Path:
+        from .constants import MAX_UPLOAD_BYTES
+        if len(content) > MAX_UPLOAD_BYTES:
+            raise ValueError(f"File exceeds upload limit of {MAX_UPLOAD_BYTES} bytes")
         if not filename.lower().endswith(".pdf"):
             raise ValueError("Only PDF files are supported")
 
