@@ -78,3 +78,8 @@ def test_summary_report_totals() -> None:
     assert summary.total_amount == 150.0
     assert summary.vendors["Acme Supplies Ltd"] == 100.0
     assert summary.vendors["Globex Corporation"] == 50.0
+
+
+def test_vendor_whitespace_normalized(parser: InvoiceParser) -> None:
+    invoice = parser.parse_file(SAMPLES_DIR / "invoice_acme_001.pdf")
+    assert "  " not in invoice.vendor
