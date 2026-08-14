@@ -56,7 +56,7 @@ class InvoiceParser:
         return Invoice(
             source_file=pdf_path.name,
             invoice_number=invoice_number,
-            vendor=vendor.strip(),
+            vendor=" ".join(vendor.split()),
             date=date,
             total=total,
             line_items=line_items,
