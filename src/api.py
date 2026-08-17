@@ -41,7 +41,7 @@ def create_app(service: InvoiceExtractionService | None = None) -> FastAPI:
     app = FastAPI(
         title="PDF Invoice Extractor API",
         description="Upload, process, summarize, and inspect PDF invoices.",
-        version="1.0.0",
+        version="1.1.0",
     )
     app.state.service = service or create_service()
 
