@@ -309,3 +309,10 @@ docker compose up --build
 ```
 
 API docs: http://127.0.0.1:8000/docs
+
+## New in v1.1
+
+- `GET /duplicates` — list duplicate invoice numbers
+- `GET /summary/csv` — download CSV report
+- `GET /vendors` — vendor total breakdown
+- `GET /metrics` — runtime processing stats
