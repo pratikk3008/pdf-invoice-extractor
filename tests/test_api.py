@@ -234,3 +234,10 @@ def test_upload_rejects_oversized_file(client: TestClient) -> None:
     )
     assert response.status_code == 400
     assert "upload limit" in response.json()["detail"].lower()
+
+
+def test_vendors_endpoint(client: TestClient) -> None:
+    client.post("/load/samples", json={})
+    response = client.get("/vendors")
+    assert response.status_code == 200
+    assert response.json()["count"] == 5
