@@ -7,7 +7,7 @@ Build a command-line tool that reads a folder of PDF invoice files, extracts str
 - A JSON summary report with aggregated totals by vendor
 - An error log for PDFs that fail validation or parsing
 
-The implementation must be driven by a YAML configuration file containing regex patterns, include automated tests, and use **VS Code** with **`pdfplumber`** / **`pypdf`** (approved tools). A **FastAPI** layer exposes upload, processing, summarization, and invoice inspection endpoints.
+The implementation must be driven by a YAML configuration file containing regex patterns, include automated tests, and use **VS Code** with **`pdfplumber`** / **`pypdf`** (approved tools). A **FastAPI** layer exposes upload, processing, summarization, vendor totals, CSV export, and duplicate detection endpoints.
 
 ## Workflow Artifacts
 
