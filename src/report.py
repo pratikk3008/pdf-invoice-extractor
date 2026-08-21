@@ -79,9 +79,9 @@ def write_summary_csv(report: SummaryReport, output_path: str | Path) -> None:
     with open(output_path, "w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(
             handle,
-            fieldnames=["invoice_number", "vendor", "date", "total", "source_file"],
+            fieldnames=["source_file", "invoice_number", "vendor", "date", "total", "line_item_count"],
         )
         writer.writeheader()
         for row in report.invoices:
-            writer.writerow(row)
+            writer.writerow({key: row[key] for key in writer.fieldnames})
     logger.info("Wrote CSV summary to %s", output_path)
