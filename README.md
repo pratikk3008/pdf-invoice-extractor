@@ -316,3 +316,9 @@ API docs: http://127.0.0.1:8000/docs
 - `GET /summary/csv` — download CSV report
 - `GET /vendors` — vendor total breakdown
 - `GET /metrics` — runtime processing stats
+
+## Developer scripts
+
+```powershell
+./scripts/run_dev.ps1
+```
